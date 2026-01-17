@@ -7,7 +7,9 @@
 ![预览图](preview.png)
 
 演示地址：https://lab.ur1.fun/QQ2006/
+
 开源地址：https://github.com/mengkunsoft/QQ2006
+
 作者主页：https://mkblog.cn/
 
 ### 🎯 为什么做这个？
