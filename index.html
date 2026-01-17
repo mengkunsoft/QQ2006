@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>QQ2006</title>
+<meta name="author" content="mengkun">
+<link rel="shortcut icon" href="img/qq.png" type="image/x-icon">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    font-family: '宋体';
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+body {
+    font-size: 12px;
+    font-family: '宋体';
+    background: url('img/bg.jpeg') center center / cover no-repeat fixed;
+}
+
+button {
+    outline: none;
+    border: none;
+    background: transparent;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+input {
+    font-family: 宋体;
+    font-size: 12px;
+    outline: none;
+}
+
+img {
+    -webkit-user-drag: none;
+}
+
+.drag-parent {
+    position: fixed;
+}
+
+/*windows xp UI*/
+.app__header__buttons{opacity:1;height:22px;display:flex;gap:1px;-webkit-box-align:center;align-items:center;margin-top:-1px;margin-right:1px;}
+.app__header__buttons .header__button{margin-right:1px;position:relative;width:22px;height:22px;border:1px solid rgb(255, 255, 255);border-radius:3px;}
+.app__header__buttons .header__button:hover{filter:brightness(120%);}
+.app__header__buttons .header__button:hover:active{filter:brightness(90%);}
+.app__header__buttons .header__button--minimize{box-shadow:rgb(70, 70, 255) 0px -1px 2px 1px inset;background-image:radial-gradient(circle at 90% 90%, rgb(0, 84, 233) 0%, rgb(34, 99, 213) 55%, rgb(68, 121, 228) 70%, rgb(163, 187, 236) 90%, white 100%);}
+.app__header__buttons .header__button--minimize::before{content:"";position:absolute;left:4px;top:13px;height:3px;width:8px;background-color:white;}
+.app__header__buttons .header__button--maximize{box-shadow:rgb(70, 70, 255) 0px -1px 2px 1px inset;background-image:radial-gradient(circle at 90% 90%, rgb(0, 84, 233) 0%, rgb(34, 99, 213) 55%, rgb(68, 121, 228) 70%, rgb(163, 187, 236) 90%, white 100%);}
+.app__header__buttons .header__button--maximize::before{content:"";position:absolute;display:block;left:4px;top:4px;box-shadow:white 0px 3px inset, white 0px 0px 0px 1px inset;height:12px;width:12px;}
+.app__header__buttons .header__button--close{box-shadow:rgb(218, 70, 0) 0px -1px 2px 1px inset;background-image:radial-gradient(circle at 90% 90%, rgb(204, 70, 0) 0%, rgb(220, 101, 39) 55%, rgb(205, 117, 70) 70%, rgb(255, 204, 178) 90%, white 100%);}
+.app__header__buttons .header__button--close::before{content:"";position:absolute;left:9px;top:2px;transform:rotate(45deg);height:16px;width:2px;background-color:white;}
+.app__header__buttons .header__button--close::after{content:"";position:absolute;left:9px;top:2px;transform:rotate(-45deg);height:16px;width:2px;background-color:white;}
+.app__header__buttons .header__button--disable{outline:none;opacity:0.5;}
+.app__header__buttons .header__button--disable:hover{filter:brightness(100%);}
+
+.xp_form{display:flex;position:absolute;padding:3px;background-color:rgb(8, 49, 217);flex-direction:column;border-top-left-radius:8px;border-top-right-radius:8px;}
+.xp_form .header__bg{background:linear-gradient(rgb(0, 88, 238) 0%, rgb(53, 147, 255) 4%, rgb(40, 142, 255) 6%, rgb(18, 125, 255) 8%, rgb(3, 111, 252) 10%, rgb(2, 98, 238) 14%, rgb(0, 87, 229) 20%, rgb(0, 84, 227) 24%, rgb(0, 85, 235) 56%, rgb(0, 91, 245) 66%, rgb(2, 106, 254) 76%, rgb(0, 98, 239) 86%, rgb(0, 82, 214) 92%, rgb(0, 64, 171) 94%, rgb(0, 48, 146) 100%);position:absolute;left:0px;top:0px;right:0px;height:28px;pointer-events:none;border-top-left-radius:8px;border-top-right-radius:8px;overflow:hidden;}
+.xp_form .header__bg::before{content:"";display:block;position:absolute;left:0px;opacity:1;background:linear-gradient(to right, rgb(22, 56, 230) 0%, transparent 100%);top:0px;bottom:0px;width:15px;}
+.xp_form .header__bg::after{content:"";opacity:1;display:block;position:absolute;right:0px;background:linear-gradient(to left, rgb(22, 56, 230) 0%, transparent 100%);top:0px;bottom:0px;width:15px;}
+.xp_form .app__header{user-select:none;display:flex;height:25px;line-height:25px;font-weight:700;font-size:12px;font-family:"宋体";text-shadow:#2f2f2f 1px 1px;color:white;position:absolute;left:3px;right:3px;-webkit-box-align:center;align-items:center;}
+.xp_form .app__header__icon{width:15px;height:15px;margin-left:1px;margin-right:3px;}
+.xp_form .app__header__title{flex:1 1 0%;pointer-events:none;padding-right:5px;letter-spacing:0.5px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.xp_form .app__content{flex:1 1 0%;position:relative;margin-top:25px;height:calc(100% - 25px);}
+
+
+.qq-repeat-x {
+    repeat: repeat-x;
+}
+.qq-no-repeat {
+    repeat: no-repeat;
+}
+.qq-flex-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+.qq-single-line {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.qq-btn {
+    font-size: 12px;
+    background: linear-gradient(to bottom, #ffffff, #9FD4FF);
+    border: 1px solid #00558E;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.qq-btn:hover {
+    background: linear-gradient(to bottom, #ffffff, #B9E1FF);
+}
+
+.qq-btn:active {
+    background: linear-gradient(to bottom, #97C5EC, #D2F8FD);
+}
+
+.qq-panel {
+    width: 160px;
+    height: auto;
+    font-size: 12px;
+    font-family: 宋体;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    user-select: none;
+    
+    width: 190px;
+    height: 580px;
+    display: flex;
+    flex-direction: column;
+}
+
+.qq-title {
+    width: 100%;
+    height: 24px;
+    display: flex;
+    position: relative;
+}
+.qq-title-left {
+    background-image: url('img/BackgroundTitleLeft.png');
+    background-repeat: no-repeat;
+    width: 64px;
+}
+.qq-title-center {
+    flex: 1;
+    background-image: url('img/BackgroundTitleCenter.png');
+}
+.qq-title-right {
+    background-image: url('img/BackgroundTitleRight.png');
+    background-repeat: no-repeat;
+    width: 14px;
+}
+.qq-title-btns {
+    display: flex;
+    gap: 1px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+.qq-title-btns > button {
+    width: 16px;
+    height: 16px;
+}
+#qq-min {
+    background-image: url('img/MinButton_Normal.png');
+}
+#qq-min:hover {
+    background-image: url('img/MinButton_Hover.png');
+}
+#qq-min:active {
+    background-image: url('img/MinButton_Down.png');
+}
+#qq-color {
+    background-image: url('img/ColorButton_Normal.png');
+}
+#qq-color:hover {
+    background-image: url('img/ColorButton_Hover.png');
+}
+#qq-color:active {
+    background-image: url('img/ColorButton_Down.png');
+}
+#qq-close {
+    background-image: url('img/CloseButton_Normal.png');
+}
+#qq-close:hover {
+    background-image: url('img/CloseButton_Hover.png');
+}
+#qq-close:active {
+    background-image: url('img/CloseButton_Down.png');
+}
+.qq-head {
+    width: 100%;
+    height: 44px;
+    position: relative;
+    overflow: hidden;
+}
+
+.qq-head-left {
+    background-image: url('img/BackgroundTitleLeft2.png');
+    width: 64px;
+}
+.qq-head-center {
+    background-image: url('img/BackgroundTitleCenter2.png');
+    flex: 1;
+}
+.qq-head-right {
+    background-image: url('img/BackgroundTitleRight2.png');
+    width: 14px;
+}
+
+#qq-status-pic {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    left: 8px;
+    top: 6px;
+    cursor: pointer;
+    background-image: url('img/avatar/50.png');
+    background-size: cover;
+}
+
+#qq-status-btn {
+    position: absolute;
+    width: 11px;
+    height: 36px;
+    left: 41px;
+    top: 4px;
+    background-image: url('img/StatusButton_Normal.png');
+}
+#qq-status-btn:hover {
+    background-image: url('img/StatusButton_Hover.png');
+}
+#qq-status-btn:active {
+    background-image: url('img/StatusButton_Down.png');
+}
+
+#qq-num {
+    position: absolute;
+    left: 54px; 
+    top: 9px; 
+    width: 109px; 
+    height: 13px;
+    font-family: "MS Sans Serif"; 
+    font-size: 8pt; 
+    font-weight: 700;
+    color: #071E81;
+}
+#qq-num:hover {
+    color: #000000;
+}
+
+.qq-head-btns {
+    position: absolute;
+    left: 54px;
+    top: 24px;
+    display: flex;
+    gap: 6px;
+}
+.qq-head-btns button {
+    height: 16px;
+}
+.qq-head-btns button > img {
+    vertical-align: middle;
+}
+.qq-head-btns button > label {
+    color: #071E81;
+    font-family: "MS Sans Serif";
+    font-size: 8pt;
+    font-weight: 400;
+    cursor: pointer;
+    height: 16px;
+    padding-left: 2px;
+}
+.qq-head-btns button:hover > label {
+    color: #FFFFFF;
+}
+
+.qq-body {
+    flex: 1;
+    position: relative;
+}
+.qq-body-left {
+    background-image: url('img/BackgroundL.png');
+    width: 11px;
+}
+.qq-body-center {
+    background-image: url('img/BackgroundC.png');
+    flex: 1;
+}
+.qq-body-right {
+    background-image: url('img/BackgroundR.png');
+    width: 8px;
+}
+
+.qq-panel-bar {
+    position: absolute;
+    left: 3px;
+    top: 4px; 
+    width: 29px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.qq-panel-bar button {
+    background: url('img/panel-bar/barback2_normal.png');
+    height: 37px; 
+    width: 27px;
+    margin-top: -4px;
+}
+.qq-panel-bar button:hover {
+    background: url('img/panel-bar/barback2_over.png');
+}
+
+.qq-panel-bar button > img {
+    vertical-align: super;
+    width: 22px;
+    height: 22px;
+}
+
+.qq-panel-bar button.active {
+    background: url('img/panel-bar/barback_disabled.png');
+    z-index: 1;
+}
+
+/* 好友列表 */
+.qq-friend-box {
+    position: absolute;
+    left: 29px;
+    right: 4px;
+    height: 100%;
+    background: #fff;
+    border: 1px solid #2367c3;
+    border-radius: 2px;
+    overflow: hidden;
+    padding: 1px;
+    display: flex;
+    gap: 1px;
+    flex-direction: column;
+}
+
+.qq-friend-box > button {
+    text-align: center;
+    font-size: 12px;
+    width: 100%;
+    color: #183c94;
+    padding: 1px 0;
+}
+.qq-friend-list {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.qq-friend-group {
+    background-image: url('img/group_close.png');
+    background-repeat: no-repeat;
+    background-position: 2px 4px;
+    padding: 5px 0 5px 20px;
+    color: #101c4a;
+    cursor: pointer;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.qq-friend-group.on {
+    background-image: url('img/group_open.png');
+}
+
+.qq-friend-item {
+    display: flex;
+    padding: 4px 0 4px 4px;
+    cursor: pointer;
+}
+.qq-friend-avatar {
+    width: 40px;
+    height: 40px;
+}
+.qq-friend-info {
+    padding: 0 0 0 5px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.qq-friend-name {
+    color: #000400;
+}
+.qq-friend-item.qq-vip .qq-friend-name {
+    color: #f00;
+}
+.qq-friend-item.qq-vip .qq-friend-motto {
+    color: #ff7d7b;
+}
+.qq-friend-item.qq-offline {
+    filter: grayscale(100%);
+}
+.qq-friend-item.qq-offline .qq-friend-name,
+.qq-friend-item.qq-offline .qq-friend-motto {
+    color: #a8a8a8;
+}
+
+.qq-friend-icons {
+    display: flex;
+    gap: 3px;
+}
+.qq-friend-icons div {
+    width: 15px;
+    height: 15px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.qq-icon-music {
+    background-image: url('img/mms-bar/MMSBar_MediaRing.png');
+}
+.qq-icon-ring {
+    background-image: url('img/mms-bar/MMSBar_PhoneRing.png');
+}
+.qq-icon-mobile {
+    background-image: url('img/mms-bar/MMSBar_MobileQQ.png');
+}
+
+
+/* 底部的工具栏 */
+.qq-toolbar {
+    height: 62px;
+    position: relative;
+}
+.qq-toolbar-left {
+    background-image: url('img/ToolBarBackgroundL.png');
+    width: 15px;
+}
+.qq-toolbar-center {
+    background-image: url('img/ToolBarBackgroundC.png');
+    flex: 1;
+}
+.qq-toolbar-right {
+    background-image: url('img/ToolBarBackgroundR.png');
+    width: 15px;
+}
+
+.qq-toolbar-btns {
+    position: absolute;
+    display: flex;
+    overflow: hidden;
+    gap: 8px;
+    height: auto;
+    left: 10px;
+    right: 10px;
+    top: 12px;
+}
+.qq-toolbar-btns > button {
+    width: 16px;
+    height: 16px;
+    background-size: cover;
+    flex-shrink: 0;
+}
+#qq-MenuButton {
+    position: absolute;
+    left: 0px;
+    top: 32px;
+    width: 65px;
+    height: 24px;
+    display: block;
+    background-image: url('img/MenuButton_Normal.png');
+    background-size: cover;
+    cursor: pointer;
+}
+#qq-MenuButton:hover {
+    background-image: url('img/MenuButton_Hover.png');
+}
+#qq-MenuButton:active {
+    background-image: url('img/MenuButton_Down.png');
+}
+.qq-toolbar-2 {
+    top: 37px;
+    left: 74px;
+}
+#qq-SearchButton {
+    width: 47px;
+    background-image: url('img/SearchButton.png');
+    background-size: auto 100%;
+    padding-left: 18px;
+    color: #fff;
+    font-family: 'MS Sans Serif';
+    font-weight: 400;
+    font-size: 8pt;
+}
+#qq-SearchButton:hover {
+    color: #000;
+}
+
+
+/* QQ 登陆界面 */
+
+.qq-login {
+    width: 325px;
+    background-color: #ECF6FF;
+    user-select: none;
+    padding: 0;
+}
+.qq-login-banner {
+    text-align: center;
+    height: 47px;
+    background-image: url('img/login_banner.png');
+    background-size: 100%;
+    background-position: top;
+}
+.qq-login-form {
+    background: linear-gradient(to bottom, #E4F3FF, #F0F8FF, #F0F8FF, #F0F8FF, #E4F3FF);
+    border: 1px solid #2F74C5;
+    padding: 18px;
+    margin: 6px;
+}
+.qq-login-form-row {
+    margin-bottom: 18px;
+    display: flex;
+    align-items: left;
+    position: relative;
+}
+.qq-login-form-row label {
+    width: 55px;
+    text-align: left;
+    margin-right: 7px;
+}
+.qq-login-form-row input {
+    width: 150px;
+    height: 18px;
+    border: 1px solid #7F9DB9;
+    padding: 0 2px;
+}
+.qq-login-form-row input[type="checkbox"] {
+    width: auto;
+    height: auto;
+    margin-right: 5px;
+}
+#qq-login-method {
+    position: absolute;
+    left: 46px;
+    top: 4px;
+}
+#qq-login-num {
+    height: 20px;
+}
+#qq-login-num-select {
+    position: absolute;
+    width: 17px;
+    height: 18px;
+    left: 189px;
+    top: 1px;
+    background: url('img/dropdown.png');
+}
+#qq-login-num-select:hover {
+    background-image: url('img/dropdown_hover.png');
+}
+#qq-login-num-select:active {
+    background-image: url('img/dropdown_active.png');
+}
+#qq-login-reg, #qq-login-forget {
+    width: 60px;
+    margin: 0 0 0 10px;
+}
+#qq-login-forget {
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.qq-login-check {
+    margin-bottom: 0;
+}
+.qq-login-check label {
+    width: auto; 
+    text-align: left;
+}
+.qq-login-buttons {
+    display: flex;
+    padding: 8px 8px 10px;
+}
+.qq-login-buttons button {
+    height: 20px;
+    width: 75px;
+    margin: 0 5px;
+}
+.qq-login-buttons span {
+    flex: 1;
+}
+
+/* 登陆中 */
+.qq-logging {
+    width: 190px;
+    height: 580px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    overflow: hidden;
+    user-select: none;
+}
+.qq-logging .qq-title {
+    height: 190px;
+}
+.qq-logging .qq-title-left {
+    background-image: url('img/logging/BITMAP1741_1.png');
+    width: 64px;
+}
+.qq-logging .qq-title-center {
+    background-image: url('img/logging/BITMAP1734_1.png');
+}
+.qq-logging .qq-title-right {
+    background-image: url('img/logging/BITMAP1735_1.png');
+    width: 12px;
+}
+.qq-logging .qq-title-btns {
+    gap: 0;
+}
+.qq-logging .qq-flex-bg {
+    position: relative;
+}
+.qq-logging-body {
+    flex: 1;
+}
+.qq-logging .qq-body-left {
+    background-image: url('img/logging/BITMAP1736_1.png');
+    width: 15px;
+}
+.qq-logging .qq-body-center {
+    background-image: url('img/logging/BITMAP1737_1.png');
+    width: 15px;
+}
+.qq-logging .qq-body-right {
+    background-image: url('img/logging/BITMAP1738_1.png');
+    width: 15px;
+}
+.qq-logging .qq-bottom-left {
+    background-image: url('img/logging/BITMAP1739_1.png');
+    width: 15px;
+}
+.qq-logging .qq-bottom-center {
+    background-image: url('img/logging/BITMAP1740_1.png');
+    flex: 1;
+}
+.qq-logging .qq-bottom-right {
+    background-image: url('img/logging/BITMAP1733_1.png');
+    width: 15px;
+}
+.qq-logging-bottom {
+    height: 184px;
+    overflow: hidden;
+}
+#qq-logging-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 24px;
+    bottom: 24px;
+}
+#qq-logging-main p {
+    margin: 2px 0 12px;
+}
+#qq-logging-cancel {
+    width: 90px;
+    height: 26px;
+    border: none;
+    outline: none;
+    background-image: url('img/logging/BITMAP1742_1.png');
+}
+#qq-logging-cancel:hover {
+    background-image: url('img/logging/BITMAP1744_1.png');
+}
+#qq-logging-cancel:active {
+    background-image: url('img/logging/BITMAP1743_1.png');
+}
+
+.qq-im {
+    background: #5db7ff;
+    width: 500px;
+    height: 460px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+
+
+.qq-im .qq-title-btns {
+    gap: 0;
+}
+.qq-im .qq-title-btns > button {
+    width: 17px;
+    height: 16px;
+}
+
+#qq-im-min {
+    background-image: url('img/im/IMMinButton_Normal.png');
+}
+#qq-im-min:hover {
+    background-image: url('img/im/IMMinButton_Hover.png');
+}
+#qq-im-min:active {
+    background-image: url('img/im/IMMinButton_Down.png');
+}
+
+#qq-im-max {
+    background-image: url('img/im/IMMaxButton_Normal.png');
+}
+#qq-im-max:hover {
+    background-image: url('img/im/IMMaxButton_Hover.png');
+}
+#qq-im-max:active {
+    background-image: url('img/im/IMMaxButton_Down.png');
+}
+
+#qq-im-close {
+    background-image: url('img/im/IMCloseButton_Normal.png');
+}
+#qq-im-close:hover {
+    background-image: url('img/im/IMCloseButton_Hover.png');
+}
+#qq-im-close:active {
+    background-image: url('img/im/IMCloseButton_Down.png');
+}
+
+.qq-title-icon, .qq-title-text {
+    position: absolute;
+    color: #fff;
+    font-weight: bold;
+    cursor: default;
+}
+.qq-title-icon {
+    background-image: url('img/im/icon.png');
+    width: 16px;
+    height: 16px;
+    left: 5px;
+    top: 5px;
+}
+.qq-title-text {
+    left: 22px;
+    top: 6px;
+}
+
+.qq-skin,
+.qq-contant {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.qq-skin > div {
+    display: flex;
+}
+.qq-skin .qq-title-bg {
+    height: 26px;
+}
+.qq-skin .qq-body-bg {
+    flex: 1;
+}
+
+.qq-im .qq-title-left {
+    background-image: url('img/im/IMBorderTop.png');
+    width: 25px;
+}
+.qq-im .qq-title-center {
+    background-image: url('img/im/IMBorderTop.png');
+    background-size: 10000px 26px;
+    background-position: top;
+}
+
+.qq-im .qq-bottom-left,
+.qq-im .qq-bottom-center,
+.qq-im .qq-bottom-right {
+    background-image: url('img/im/IMBorderBottom.png');
+    height: 8px;
+}
+.qq-im .qq-bottom-left {
+    width: 10px;
+}
+.qq-im .qq-bottom-center {
+    background-size: 10000px 8px;
+    background-position: top;
+    flex: 1;
+}
+.qq-im .qq-bottom-right {
+    width: 10px;
+    background-position: right;
+}
+
+.qq-im-big-toolbar {
+    margin: 0 4px;
+    padding-left: 6px;
+    height: 36px;
+    background-image: url('img/im/IMBigToolBarBackground.png');
+    display: flex;
+}
+.qq-im-big-toolbar button {
+    color: rgb(7,30,129);
+    font-weight: bold;
+    background-repeat: no-repeat;
+    background-position: center left;
+    background-position-x: 2px;
+    padding: 0 8px 0 28px;
+    border: 1px solid transparent;
+}
+.qq-im-big-toolbar button:hover {
+    border-color: rgb(70,136,201);
+    background-color: rgb(130,199,255);
+}
+.qq-im-big-toolbar button:active {
+    border-color: rgb(40,99,157);
+    background-color: rgb(83,168,245);
+}
+#qq-im-msg {
+    background-image: url('img/im/IMBigToolbarMQQ.png');
+}
+#qq-im-video {
+    background-image: url('img/im/IMBigToolbarVideo.png');
+}
+#qq-im-audio {
+    background-image: url('img/im/IMBigToolbarQQSQQ.png');
+}
+#qq-im-file {
+    background-image: url('img/im/IMBigToolbarSendFile.png');
+}
+#qq-im-3d {
+    background-image: url('img/im/IMBigToolbar3DShow.png');
+}
+#qq-im-invite {
+    background-image: url('img/im/IMBigToolbarInvite.png');
+}
+
+.qq-im-contant {
+    display: flex;
+    flex: 1;
+    gap: 4px;
+    padding: 0 8px 8px;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.qq-im-main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 6px;
+    min-height: 0;
+}
+.qq-im-side, .qq-im-chat {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(53,111,175);
+    width: 140px;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* 聊天框聊天区域 */
+.qq-im-chat {
+    width: 100%;
+    border-radius: 4px;
+    background-color: #fff;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.qq-im-chat-msg {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; 
+}
+
+.qq-im-friend-info {
+    background: linear-gradient(to bottom, #ffffff, #b6d5f5);
+    border-bottom: 1px solid #84a6c6;
+    padding: 1px 2px;
+    color: rgb(7,30,129);
+    cursor: pointer;
+}
+.qq-im-friend-info:hover {
+    color: rgb(99,119,190);
+}
+.qq-im-friend-info img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    vertical-align: sub;
+    float: left;
+}
+
+.qq-im-chat-msg-list {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 5px;
+    min-height: 0;
+    max-height: 100%;
+}
+.qq-im-chat-msg-list li p {
+    color: #000;
+    padding-left: 15px;
+    line-height: 1.4;
+}
+.qq-im-chat-msg-list li p:first-of-type {
+    color: #210f95;
+    padding-left: 0;
+}
+.qq-im-chat-msg-list li.my p:first-of-type {
+    color: #2d794b;
+}
+.qq-im-chat-msg-list li p:first-of-type span {
+    font-size: 12px;
+    padding-left: 8px;
+}
+
+.qq-im-chat-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 20px;
+    padding-left: 4px;
+    background: url('img/im/IMSmallToolbarBackground.png');
+    background-size: 10000px 100%;
+    background-position: center;
+}
+
+.qq-im-chat-toolbar button {
+    width: 18px;
+    height: 18px;
+    border: 1px solid transparent;
+    background-image: url('img/im/IMSmallToolbarFace.png');
+}
+
+.qq-im-chat-toolbar button:hover {
+    border-color: rgb(135,164,197);
+    background-color: rgb(183,214,245);
+}
+.qq-im-chat-toolbar button:active {
+    border-color: rgb(109,146,186);
+    background-color: rgb(170,200,230);
+}
+.qq-im-chat-toolbar .im-toolbar-font {
+    background-image: url('img/im/IMSmallToolbarFont.png');
+}
+.qq-im-chat-toolbar .im-toolbar-face {
+    background-image: url('img/im/IMSmallToolbarFace.png');
+}
+.qq-im-chat-toolbar .im-toolbar-other {
+    background-image: url('img/im/IMSmallToolbarOtherContent.png');
+}
+.qq-im-chat-toolbar .im-toolbar-picture {
+    background-image: url('img/im/IMSmallToolbarPicture.png');
+}
+.qq-im-chat-toolbar .im-toolbar-catch {
+    background-image: url('img/im/IMSmallToolbarCatch.png');
+}
+.qq-im-chat-toolbar .im-toolbar-scene {
+    background-image: url('img/im/IMSmallToolbarScene.png');
+}
+.qq-im-chat-toolbar .im-toolbar-bag {
+    background-image: url('img/im/IMSmallToolbarSuperbag.png');
+}
+.qq-im-chat-toolbar .im-toolbar-ptt {
+    background-image: url('img/im/IMSmallToolbarPtt.png');
+}
+.qq-im-chat-toolbar span {
+    background: rgb(114,149,188);
+    width: 1px;
+    height: 80%;
+}
+
+.qq-im-chat-send {
+    height: 70px;
+    padding: 4px;
+    border: none;
+    outline: none;
+    resize: none;
+}
+
+.qq-im-btns {
+    display: flex;
+    height: 20px;
+    gap: 5px;
+}
+.qq-im-btns span {
+    flex: 1;
+}
+.qq-im-btns .qq-btn {
+    padding: 0 2px;
+}
+
+/* 聊天框右侧栏 */
+.qq-im-side-btn {
+    position: relative;
+    height: 20px;
+    width: 100%;
+    z-index: 2;
+    text-align: left;
+    padding-left: 20px;
+    background-image: url('img/im/IMSidebarButtonExpand_Normal.png');
+    background-size: 1000px 100%;
+}
+.qq-im-side-btn::before,
+.qq-im-side-btn::after {
+    position: absolute;
+    content: '';
+    height: 100%;
+    top: 0;
+    z-index: -1;
+}
+.qq-im-side-btn::before {
+    background-image: url('img/im/IMSidebarButton_Normal.png');
+    width: 50px;
+    left: 0;
+}
+.qq-im-side-btn::after {
+    background-image: url('img/im/IMSidebarMenu_Normal.png');
+    width: 33px;
+    right: 0;
+}
+.qq-im-side-btn:hover::before {
+    background-image: url('img/im/IMSidebarButton_Hover.png');
+}
+.qq-im-side-btn:hover::after {
+    background-image: url('img/im/IMSidebarMenu_Hover.png');
+}
+.qq-im-show {
+    height: 100%;
+    background-size: cover;
+    background-position: 50%;
+}
+.qq-im-zone {
+    background: #f6f6f6;
+    color: #0f0657;
+}
+.qq-im-zone div {
+    line-height: 1.4;
+    padding: 0 2px;
+}
+.qq-im-zone span {
+    color: red;
+}
+</style>
+</head>
+
+<body>
+
+<div class="qq-im drag-parent" style="left: 40%; top: 20%; z-index: 9999">
+    <div class="qq-skin">
+        <div class="qq-title-bg">
+            <div class="qq-title-left"></div>
+            <div class="qq-title-center"></div>
+            <div class="qq-title-right"></div>
+        </div>
+        <div class="qq-body-bg">
+            <div class="qq-body-left"></div>
+            <div class="qq-body-center"></div>
+            <div class="qq-body-right"></div>
+        </div>
+        <div class="qq-bottom-bg">
+            <div class="qq-bottom-left"></div>
+            <div class="qq-bottom-center"></div>
+            <div class="qq-bottom-right"></div>
+        </div>
+    </div>
+    <div class="qq-contant">
+        <div class="qq-title drag-handle">
+            <div class="qq-title-icon"></div>
+            <div class="qq-title-text">与 メ乖乖女ソ 聊天中</div>
+            <div class="qq-title-btns">
+                <button id="qq-im-min" title="隐藏"></button>
+                <button id="qq-im-max" title="最大化"></button>
+                <button id="qq-im-close" title="关闭"></button>
+            </div>
+        </div>
+        <div class="qq-im-big-toolbar">
+            <button id="qq-im-msg">短信</button>
+            <button id="qq-im-video">视频</button>
+            <button id="qq-im-audio">语音</button>
+            <button id="qq-im-file">传文件</button>
+            <button id="qq-im-3d">3D秀</button>
+            <button id="qq-im-invite" onclick="window.open('https://github.com/mengkunsoft/QQ2006')">邀请</button>
+        </div>
+        
+        <div class="qq-im-contant">
+            <div class="qq-im-main">
+                <div class="qq-im-chat">
+                    <!-- 聊天内容 -->
+                    <div class="qq-im-chat-msg">
+                        <div class="qq-im-friend-info">
+                            <img src="img/avatar/97.png">
+                            <p>メ乖乖女ソ(3453674)：为了躲开所有结局的可能，你连开始都直接按了暂停键</p>
+                        </div>
+                        <ul class="qq-im-chat-msg-list">
+                            <li class="my">
+                                <p>痴情梦丶<span>20:37:01</span></p>
+                                <p>在吗？</p>
+                            </li>
+                            <li>
+                                <p>メ乖乖女ソ<span>20:37:08</span></p>
+                                <p>原来你也在网上冲浪啊~</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 聊天工具栏 -->
+                    <div class="qq-im-chat-toolbar">
+                        <button class="im-toolbar-font"></button>
+                        <button class="im-toolbar-face"></button>
+                        <button class="im-toolbar-other"></button>
+                        <span></span>
+                        <button class="im-toolbar-picture"></button>
+                        <button class="im-toolbar-catch"></button>
+                        <button class="im-toolbar-scene"></button>
+                        <button class="im-toolbar-bag"></button>
+                        <button class="im-toolbar-ptt"></button>
+                    </div>
+
+                    <!-- 聊天发送框 -->
+                    <textarea class="qq-im-chat-send"></textarea>
+                </div>
+                <div class="qq-im-btns">
+                    <button class="qq-btn">聊天记录(H)</button>
+                    <button class="qq-btn">消息模式(T)</button>
+                    <span></span>
+                    <button class="qq-btn">关闭(C)</button>
+                    <div style="display: flex; gap: 2px;">
+                        <button class="qq-btn" id="btn-send-msg">发送(S)</button>
+                        <button class="qq-btn" style="padding: 0;">↓</button>
+                    </div>
+                </div>
+            </div>
+            <div class="qq-im-side">
+                <div style="flex: 1">
+                    <button class="qq-im-side-btn">对方形象</button>
+                    <div class="qq-im-show" style="background-image: url('img/im/show1.gif')"></div>
+                </div>
+                <div class="qq-im-zone qq-single-line">
+                    <button class="qq-im-side-btn">个人空间</button>
+                    <div>摘要：若无法为你撑起晴空，那我便陪你共沐风雨</div>
+                    <div>日记：<span>48</span>条/<span>169</span>评论</div>
+                    <div>相册：<span>12</span>张/<span>23</span>评论</div>
+                    <div>收藏：<span>62</span>个</div>
+                </div>
+                <div style="flex: 1">
+                    <button class="qq-im-side-btn">我的形象</button>
+                    <div class="qq-im-show" style="background-image: url('img/im/show3.gif')"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- QQ 主面板 -->
+<div class="qq-panel drag-parent" style="left: 70%; top: 10%;">
+    <!-- 标题栏 -->
+    <div class="qq-title drag-handle">
+        <div class="qq-title-left"></div>
+        <div class="qq-title-center"></div>
+        <div class="qq-title-right"></div>
+        <div class="qq-title-btns">
+            <button id="qq-min" title="隐藏"></button>
+            <button id="qq-color" title="颜色改变"></button>
+            <button id="qq-close" title="关闭"></button>
+        </div>
+    </div>
+    <!-- 用户信息头部 -->
+    <div class="qq-head">
+        <div class="qq-flex-bg">
+            <div class="qq-head-left"></div>
+            <div class="qq-head-center"></div>
+            <div class="qq-head-right"></div>
+        </div>
+        <div id="qq-status-pic" title="修改个人资料"></div>
+        <button id="qq-status-btn" title="更改状态"></button>
+        <label id="qq-num">痴情梦丶(在线)</label>
+        <div class="qq-head-btns">
+            <button id="qq-mail" title="收发邮件" onclick="window.open('http://mail.qq.com/')">
+                <img src="img/MailButton.png" /><label>(0)</label>
+            </button>
+            <button id="qq-security" title="安全中心">
+                <img src="img/security_normal.png" />
+            </button>
+            <button id="qq-payment" title="我的钱包">
+                <img src="img/payment.png" />
+            </button>
+        </div>
+    </div>
+    <!--主面板区域-->
+    <div class="qq-body">
+        <div class="qq-flex-bg">
+            <div class="qq-body-left"></div>
+            <div class="qq-body-center"></div>
+            <div class="qq-body-right"></div>
+        </div>
+        <div class="qq-panel-bar">
+            <button id="qq-FriendButton" title="QQ好友面板" class="active"><img src="img/panel-bar/FriendButton.png"/></button>
+            <button id="qq-SBuddyButton" title="互动空间"><img src="img/panel-bar/SBuddyButton.png"/></button>
+            <button id="qq-MobileButton" title="我的无线乐园"><img src="img/panel-bar/MobileButton.png"/></button>
+            <button id="qq-RtxButton" title="企业好友面板"><img src="img/panel-bar/RtxButton.png"/></button>
+            <button id="qq-ContentsButton" title="网络杂志面板"><img src="img/panel-bar/ContentsButton.png"/></button>
+            <button id="qq-CustomButton" title="用户自定义面板"><img src="img/panel-bar/CustomButton.png"/></button>
+            <button id="qq-EaseButton" title="音乐中心"><img src="img/panel-bar/EaseButton.png"/></button>
+            <button id="qq-NetDiskButton" title="网络硬盘"><img src="img/panel-bar/NetDiskButton.png"/></button>
+            <button id="qq-AllButton" title="综合业务面板"><img src="img/panel-bar/IntegratePanel.png"/></button>
+            <button id="qq-PanelMngButton" title="面板管理器"><img src="img/panel-bar/BlankPanel.png"/></button>
+        </div>
+        
+        <div class="qq-friend-box">
+            <button class="qq-btn">QQ好友</button>
+            <div class="qq-friend-list">
+                <div class="qq-friend-group">
+                    我的好友(19/26)
+                </div>
+                <div class="qq-friend-group on">
+                    家人(5/13)
+                </div>
+                <div class="qq-friend-item">
+                    <img class="qq-friend-avatar" src="img/avatar/16.png"/>
+                    <div class="qq-friend-info">
+                        <p class="qq-friend-name">阿辉</p>
+                        <p class="qq-friend-motto">人生沟坎多因能力不足，门槛高低全凭实力</p>
+                        <div class="qq-friend-icons"></div>
+                    </div>
+                </div>
+                <div class="qq-friend-item qq-vip">
+                    <img class="qq-friend-avatar" src="img/avatar/22.png"/>
+                    <div class="qq-friend-info">
+                        <p class="qq-friend-name">哎哟喂</p>
+                        <p class="qq-friend-motto">我爱吃红烧肉</p>
+                        <div class="qq-friend-icons">
+                            <div class="qq-icon-music"></div>
+                            <div class="qq-icon-mobile"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qq-friend-item">
+                    <img class="qq-friend-avatar" src="img/avatar/5.png"/>
+                    <div class="qq-friend-info">
+                        <p class="qq-friend-name">小王子</p>
+                        <p class="qq-friend-motto">我珍忄昔、祢鳪忄董，我放掱、你却拉住我。。</p>
+                        <div class="qq-friend-icons">
+                            <div class="qq-icon-music"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qq-friend-item">
+                    <img class="qq-friend-avatar" src="img/avatar/7.png"/>
+                    <div class="qq-friend-info">
+                        <p class="qq-friend-name">happy</p>
+                        <p class="qq-friend-motto">&nbsp;</p>
+                        <div class="qq-friend-icons">
+                            <div class="qq-icon-mobile"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qq-friend-item">
+                    <img class="qq-friend-avatar" src="img/avatar/9.png"/>
+                    <div class="qq-friend-info">
+                        <p class="qq-friend-name">木子</p>
+                        <p class="qq-friend-motto">你也在网上冲浪啊</p>
+                        <div class="qq-friend-icons">
+                        </div>
+                    </div>
+                </div>
+                <div class="qq-friend-item">
+                    <img class="qq-friend-avatar" src="img/avatar/11.png"/>
+                    <div class="qq-friend-info">
+                        <p class="qq-friend-name">灰</p>
+                        <p class="qq-friend-motto">有事请留言</p>
+                        <div class="qq-friend-icons">
+                            <div class="qq-icon-music"></div>
+                            <div class="qq-icon-mobile"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qq-friend-item qq-offline">
+                    <img class="qq-friend-avatar" src="img/avatar/18.png"/>
+                    <div class="qq-friend-info">
+                        <p class="qq-friend-name">爱拼才会赢</p>
+                        <p class="qq-friend-motto">我还年轻，所以我可以</p>
+                        <div class="qq-friend-icons">
+                        </div>
+                    </div>
+                </div>
+                <div class="qq-friend-item qq-offline">
+                    <img class="qq-friend-avatar" src="img/avatar/100.png"/>
+                    <div class="qq-friend-info">
+                        <p class="qq-friend-name">最深的记忆</p>
+                        <p class="qq-friend-motto">把你留在心中</p>
+                        <div class="qq-friend-icons">
+                            <div class="qq-icon-mobile"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qq-friend-group">
+                    同学(28/37)
+                </div>
+                <div class="qq-friend-group">
+                    陌生人
+                </div>
+                <div class="qq-friend-group">
+                    黑名单
+                </div>
+            </div>
+            
+            <button class="qq-btn">手机好友</button>
+            <button class="qq-btn">群/校友录</button>
+            <button class="qq-btn">最近联系人</button>
+        </div>
+    </div>
+    
+    <!--底部工具栏区域-->
+    <div class="qq-toolbar">
+        <div class="qq-flex-bg">
+            <div class="qq-toolbar-left"></div>
+            <div class="qq-toolbar-center"></div>
+            <div class="qq-toolbar-right"></div>
+        </div>
+        <div class="qq-toolbar-btns">
+            <button id="qq-MobileMsgButton" title="发送手机消息" style="background-image: url('img/MobileMsgButton.png')"></button>
+            <button id="qq-GameButton" title="QQ游戏" style="background-image: url('img/GameButton.png')" onclick="window.open('https://game.qq.com/')"></button>
+            <button id="qq-TTButton" title="腾讯TT浏览器" style="background-image: url('img/TTButton.png')" onclick="window.open('https://browser.qq.com/')"></button>
+            <button id="qq-ChatRoomButton" title="进入聊天室" style="background-image: url('img/ChatRoomButton.png')"></button>
+            <button id="qq-QQHome" title="QQ空间" style="background-image: url('img/QQHome.png')" onclick="window.open('https://qzone.qq.com/')"></button>
+            <button id="qq-QQMusicButton" title="QQ音乐" style="background-image: url('img/QQMusicButton.png')" onclick="window.open('https://y.qq.com/')"></button>
+            <button id="qq-QQTVButton" title="网络电视(QQLive)" style="background-image: url('img/QQTVButton.png')" onclick="window.open('https://v.qq.com/')"></button>
+            <button id="qq-Pet" title="QQ宠物" style="background-image: url('img/OpenPet.png')" onclick="window.open('https://pet.qq.com/')"></button>
+        </div>
+        <div id="qq-MenuButton" onclick="window.open('https://mkblog.cn/')"></div>
+        <div class="qq-toolbar-btns qq-toolbar-2">
+            <button id="qq-MsgManagerButton" title="信息管理器" style="background-image: url('img/MsgManagerButton.png');background-size: auto;width: 19px"></button>
+            <button id="qq-SearchButton" title="查找用户">查找</button>
+        </div>
+    </div>
+</div>
+
+<!-- QQ 登录窗口 -->
+<div class="xp_form drag-parent" style="z-index: 10; left: 10%; top: 36%;">
+    <div class="header__bg"></div>
+    <header class="app__header drag-handle">
+        <img src="img/qq.png" alt="QQ用户登录" class="app__header__icon" draggable="false">
+        <div class="app__header__title">QQ用户登录</div>
+        <div class="app__header__buttons">
+            <button class="header__button header__button--minimize"></button>
+            <button class="header__button header__button--maximize header__button--disable"></button>
+            <button class="header__button header__button--close"></button>
+        </div>
+    </header>
+    <div class="app__content">
+        <div class="qq-login">
+            <div class="qq-login-banner"></div>
+            <div class="qq-login-form">
+                <div class="qq-login-form-row">
+                    <label for="qq-login-num">
+                        QQ号码
+                        <img id="qq-login-method" src="img/select.png">
+                    </label>
+                    <input type="text" id="qq-login-num" placeholder="&lt;请在这儿输入QQ号码&gt;">
+                    <button class="qq-btn" id="qq-login-reg" onclick="window.open('https://ssl.zc.qq.com/v3/index-chs.html')">申请号码</button>
+                    <button id="qq-login-num-select"></button>
+                </div>
+                <div class="qq-login-form-row" style="align-items: flex-end">
+                    <label for="qq-login-password">QQ密码</label>
+                    <input type="password" id="qq-login-password" placeholder="">
+                    <a href="https://accounts.qq.com/find/password" target="_blank" id="qq-login-forget">忘了密码？</a>
+                </div>
+                <div class="qq-login-form-row qq-login-check">
+                    <label style="width: 55px"></label>
+                    <input type="checkbox" id="qq-login-auto" checked>
+                    <label for="qq-login-auto">自动登录</label>
+                    <input type="checkbox" id="qq-login-hide">
+                    <label for="qq-login-hide">隐身登录</label>
+                </div>
+            </div>
+            <div class="qq-login-buttons">
+                <button class="qq-btn" style="width: 78px">高级设置 ↓</button>
+                <span></span>
+                <button class="qq-btn" id="loginBtn">登录</button>
+                <button class="qq-btn" id="registerBtn">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 登录中窗口 -->
+<div class="qq-logging drag-parent" style="left: 28%; top: 10%;z-index:999">
+    <!-- 标题栏 -->
+    <div class="qq-title drag-handle">
+        <div class="qq-title-left"></div>
+        <div class="qq-title-center"></div>
+        <div class="qq-title-right"></div>
+        <div class="qq-title-btns">
+            <button id="qq-min"></button>
+            <button id="qq-close"></button>
+        </div>
+    </div>
+    
+    <div class="qq-logging-body qq-flex-bg">
+        <div class="qq-body-left"></div>
+        <div class="qq-body-center"></div>
+        <div class="qq-body-right"></div>
+    </div>
+    <div class="qq-logging-bottom qq-flex-bg">
+        <div class="qq-bottom-left"></div>
+        <div class="qq-bottom-center"></div>
+        <div class="qq-bottom-right"></div>
+    </div>
+    <div id="qq-logging-main">
+        <img src="img/logging/BITMAP1710_1.png">
+        <img src="img/logging/START_GIF1704_1.gif">
+        <p>正在登录</p>
+        <button id="qq-logging-cancel"></button>
+    </div>
+</div>
+
+
+<script>
+const playAudio = url => new Audio(url).play().catch(e => console.error('播放失败:', e));
+
+document.addEventListener('DOMContentLoaded',  () => {
+
+    document.getElementById('btn-send-msg').onclick = () => {
+        playAudio('sound/msg.mp3');
+    };
+
+    document.getElementById('qq-MsgManagerButton').onclick = () => {
+        playAudio('sound/system.mp3');
+    };
+
+    document.getElementById('qq-im-msg').onclick = () => {
+        playAudio('sound/msg.mp3');
+    };
+
+    document.getElementById('qq-im-video').onclick = () => {
+        playAudio('sound/call.mp3');
+    };
+
+    document.getElementById('qq-im-audio').onclick = () => {
+        playAudio('sound/call.mp3');
+    };
+
+    playAudio('sound/msg.mp3');
+
+    /* 拖拽移动窗口 */ 
+    document.querySelectorAll('.drag-parent').forEach(parent  => {
+        const handle = parent.querySelector('.drag-handle'); 
+        if (!handle) return;
+ 
+        let isDragging = false;
+        let startX, startY, startLeft, startTop;
+ 
+        const getPosition = (el) => {
+            const style = window.getComputedStyle(el); 
+            return {
+                left: parseInt(style.left,  10) || 0,
+                top: parseInt(style.top,  10) || 0 
+            };
+        };
+ 
+        handle.addEventListener('mousedown',  (e) => {
+            e.preventDefault(); 
+            isDragging = true;
+            const pos = getPosition(parent);
+            startLeft = pos.left; 
+            startTop = pos.top; 
+            startX = e.clientX; 
+            startY = e.clientY; 
+        });
+ 
+        handle.addEventListener('touchstart',  (e) => {
+            e.preventDefault(); 
+            isDragging = true;
+            const pos = getPosition(parent);
+            startLeft = pos.left; 
+            startTop = pos.top; 
+            startX = e.touches[0].clientX; 
+            startY = e.touches[0].clientY; 
+        }, { passive: false });
+ 
+        const moveHandler = (e) => {
+            if (!isDragging) return;
+            const clientX = e.clientX  ?? e.touches?.[0]?.clientX; 
+            const clientY = e.clientY  ?? e.touches?.[0]?.clientY; 
+            
+            parent.style.left  = `${startLeft + (clientX - startX)}px`;
+            parent.style.top  = `${startTop + (clientY - startY)}px`;
+        };
+ 
+        document.addEventListener('mousemove',  moveHandler);
+        document.addEventListener('touchmove',  moveHandler, { passive: false });
+ 
+        const endHandler = () => isDragging = false;
+        document.addEventListener('mouseup',  endHandler);
+        document.addEventListener('touchend',  endHandler);
+    });
+});
+</script>
+
+
+<!-- 以下为无关代码 -->
+<a href="https://github.com/mengkunsoft/QQ2006" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function() {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?ea4269d8a00e95fdb9ee61e3041a8f98";
+var s = document.getElementsByTagName("script")[0]; 
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</body>
+</html>
